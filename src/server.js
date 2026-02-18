@@ -1005,17 +1005,7 @@ const server = app.listen(PORT, () => {
   console.log(`[wrapper] configured: ${isConfigured()}`);
 
   if (isConfigured()) {
-    (async () => {
-      try {
-        console.log("[wrapper] running openclaw doctor --fix...");
-        const dr = await runCmd(OPENCLAW_NODE, clawArgs(["doctor", "--fix"]));
-        console.log(`[wrapper] doctor --fix exit=${dr.code}`);
-        if (dr.output) console.log(dr.output);
-      } catch (err) {
-        console.warn(`[wrapper] doctor --fix failed: ${err.message}`);
-      }
-      await ensureGatewayRunning();
-    })().catch((err) => {
+    ensureGatewayRunning().catch((err) => {
       console.error(`[wrapper] failed to start gateway at boot: ${err.message}`);
     });
   }
